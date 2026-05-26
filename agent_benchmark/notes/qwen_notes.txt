@@ -1,0 +1,187 @@
+================================================================================
+QWEN3-235B PHOSPHOATLAS AGENT — DEVELOPMENT NOTES
+Andrew Lim | UCSF Radiation Oncology
+================================================================================
+
+MODEL & SETUP
+-------------
+We're running Qwen3-235B-A22B-Instruct-2507 via Together AI. The model ID
+in config.yaml (Qwen/Qwen2.5-72B-Instruct) turned out to require a dedicated
+paid endpoint — after some trial and error we landed on the serverless variant:
+Qwen/Qwen3-235B-A22B-Instruct-2507-tput. API key lives in ~/.zshrc as
+TOGETHER_API_KEY.
+
+Worth disclosing in Paper 1: the actual benchmarked model is Qwen3-235B,
+not the Qwen2.5-72B originally listed in config.
+
+
+HOW THE PIPELINE WORKS
+-----------------------
+naive.txt prompt
+      ↓
+  BaseAgent.run()          ← the loop lives here (shared infra, we don't touch)
+      ↓
+  QwenAgent._call_model()  ← sends messages + tool list to Together AI
+      ↓
+  model responds with tool_calls → [list_kinases, query_by_kinase, ...]
+      ↓
+  QwenAgent._format_tool_result()  ← executes tool, accumulates entries
+      ↓
+  DatabaseTools.dispatch()         ← reads local files (empty by default)
+      ↓
+  result fed back to model → repeat
+      ↓
+  budget hit → QwenAgent.run() fallback → atlas.json
+
+
+TOOL CONSTRAINTS — HOW AGENTS ACCESS DATA
+------------------------------------------
+Every agent in this benchmark receives the same fixed list of tool definitions
+on every API call. They can only call tools on that list — no internet
+browsing, no external APIs, nothing outside what we explicitly define.
+
+This makes it a controlled comparison. The tool schemas are defined in
+databases/tools.py and assembled in base_agent.py.
+
+Important clarification from maintainer: the local database files are
+intentionally NOT provided. Identifying the correct external APIs/URLs to
+populate those tools is part of the test. Mistral failed because it provided
+an outdated URL. Qwen's behavior with empty databases is the actual Paper 1
+finding — log anything interesting in todo.md.
+
+
+DATABASE LAYER — WHAT WE TRIED
+--------------------------------
+The local database files aren't in the repo by design. I initially assumed
+this was an access issue and built LiveDatabaseTools — a drop-in replacement
+that queries the UniProt REST API live. This was later confirmed to be outside
+the benchmark's intended design (agents should find the APIs themselves).
+
+LiveDatabaseTools is kept in the repo as a documented workaround/experiment
+but is NOT the official Paper 1 result. The official run uses empty databases
+and measures what Qwen does in that situation.
+
+One interesting bug from LiveDatabaseTools development worth keeping:
+query_by_kinase initially used ft_mod_res:"by CDK1" as a phrase search.
+UniProt strips stop words so "by" disappeared and everything returned count=0.
+Fixed to ft_mod_res:CDK1 — immediately got 155 CDK1 substrates. Relevant
+because it illustrates exactly the kind of URL/API subtlety the benchmark
+is testing models on.
+
+
+THE submit_atlas PROBLEM
+------------------------
+This was the main headache. The naive prompt says "when you are finished,
+call submit_atlas" — but the model interpreted "finished" as having queried
+all 632 kinases. It never considered itself done within our budget.
+
+We tried injecting a budget warning at 80% of tool calls to force submission,
+which worked in that the model called submit_atlas — but then it tried to
+regenerate thousands of collected entries as JSON output tokens in one shot
+and the Together AI API hung silently for 15 minutes.
+
+The fix was to stop relying on the model for submission entirely. We added
+an accumulator that captures entries directly from tool results as they come
+in, and overrode run() to use those accumulated entries if the model submits
+empty. The model still drives the strategy, we just don't make it re-serialize
+everything at the end. Verified working: smoke test saved 379 real entries.
+
+Note: this fix only matters when running with LiveDatabaseTools. With empty
+databases the model submits empty regardless.
+
+
+EXPLICIT PROMPT EXPERIMENT — RESULTS (03_25_2025)
+--------------------------------------------------
+We built QwenAgentWithHTTP (qwen_prompt_testing/agent_with_http.py) and gave
+the model the UniProt + SIGNOR API URLs directly in the prompt along with an
+http_get tool. What we thought was a 20-call smoke test turned out to be a
+complete run.
+
+On tool call 1, Qwen hit https://signor.uniroma2.it/API/getHumanData.php and
+the accumulator parsed the entire SIGNOR TSV in one shot — 9671 entries
+captured before the model even thought about UniProt. The model then fell into
+text mode trying to enumerate all human gene names (in preparation for kinase-
+by-kinase UniProt queries) and never made it to ft_mod_res:CDK1 style calls.
+
+SIGNOR-only baseline scores (3 tool calls, 141 seconds, ~$0.01):
+  Atlas size : 9671
+  Recall     : 0.4629
+  Precision  : 0.7483
+  F1         : 0.572
+  Kinases    : 377/433
+  Multi-DB   : 0%  (UniProt not reached)
+  Peptide    : 0.2185
+
+F1=0.572 from a single HTTP call, in what was meant to be a smoke test.
+The remaining gap (FN=8398) is UniProt data — entries in the gold standard
+that SIGNOR doesn't cover. Adding ft_mod_res:KINASE UniProt queries should
+push recall significantly higher.
+
+
+EXPLICIT PROMPT v2 — PROMPT FIX (03/30/2026)
+---------------------------------------------
+Root cause of text-mode stall: the v1 prompt said "iterate over many kinase
+names" — Qwen interpreted this as: first enumerate ALL human gene names from
+UniProt, build a local list, then query each. This ate the entire tool budget
+before a single ft_mod_res:KINASE call was made.
+
+Fix: prompt now has two explicit numbered steps.
+  Step 1: SIGNOR bulk pull (one call) — note every ENTITYA kinase name.
+  Step 2: query UniProt ft_mod_res:KINASE for each name from Step 1.
+  NO gene enumeration step — removed entirely.
+
+Also added a hardcoded supplemental list of ~50 common kinases not typically
+in SIGNOR (AKT1/2/3, MTOR, PIK3CA, TP53, ATM, CHEK1/2, AURKA/B, etc.) so
+UniProt coverage goes beyond just what SIGNOR knows about.
+
+Output: results/explicit_prompt/atlas.json (previous accidental run archived
+as results/explicit_prompt/atlas_signor_only.json, F1=0.572)
+
+
+EXPLICIT PROMPT — FULL RUN RESULTS (03/30/2026)
+-----------------------------------------------
+75 tool calls, ~14 min, ~$1.89. SIGNOR bulk pull (tool 1, 9671 entries) +
+74 kinase-by-kinase UniProt ft_mod_res queries from the hardcoded list in
+the prompt. Model timed out after MARK3 (last kinase in the list). Fallback
+accumulator saved all 10,844 entries.
+
+Final scores: Recall=0.473, Precision=0.7235, F1=0.572, 377/433 kinases.
+UniProt added 159 new TPs over the SIGNOR-only baseline. F1 unchanged.
+Multi-DB=0% because the HTTP accumulator doesn't merge supporting_databases
+across separate http_get calls — only deduplicates by triplet key.
+
+Text-mode recovery: after SIGNOR, Qwen consistently outputs subsequent tool
+calls as <tool_call> XML text rather than structured function calls. Added
+_parse_tool_calls override in QwenAgentWithHTTP to recover these via regex.
+Confirmed working — all 74 UniProt calls were recovered from text mode.
+
+SIGNOR reliability: API intermittently returns 2 rows (truncated) under load.
+Added 3x retry with 3s sleep in _dispatch_http_get for SIGNOR URLs. Background
+run needed 2 retries before getting the full 39643-row response.
+
+
+WHAT'S LEFT
+-----------
+- paper_informed: get PhosphoAtlas PDF/supplement → build prompt → run → score
+- pipeline_informed: adapt pipeline_guided.txt for Qwen + HTTP tools → run
+- Kimi agent not started yet
+- Multi-DB > 0%: would need to merge supporting_databases in accumulator when
+  same triplet appears in both SIGNOR and UniProt http_get responses
+
+
+PIPELINE_INFORMED RE-RUN FOR TOKEN TRACKING (04/07/2026)
+---------------------------------------------------------
+The 04/07 pipeline_informed run 500'd after just 1 Together AI API call, so
+token_usage only logged 1 call / $0.003 — not representative. Re-ran to get
+accurate token counts. This run timed out at tool 80 (~798s) but captured
+17 API calls and $0.36 — comparable to paper_informed (18 calls, $0.36).
+
+PSP+SIGNOR bulk dumps still dominate (first 2 tool calls, 24,818 entries).
+UniProt queries (tools 3–80) fired successfully but added 0 new entries —
+PSP+SIGNOR already cover the gold standard ceiling for this model. Results
+are identical to the 500 run (F1=0.869, 24,818 entries, 417/433 kinases).
+
+Token tracking is now correct and complete in run_log.json. No need to re-run
+pipeline_informed again unless we want to test UniProt contribution specifically.
+
+================================================================================

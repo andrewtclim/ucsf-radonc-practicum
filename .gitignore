@@ -1,0 +1,103 @@
+# ---------------------------------------------------------------
+# Data — blanket exclusion. All data/ folders are gitignored.
+# Whitelist specific files in this .gitignore if they are safe to share.
+# ---------------------------------------------------------------
+**/data/**
+!**/data/README.md
+!**/data/.gitkeep
+
+# Explicit private datasets — never commit even if accidentally moved
+**/BRAF_CDK_kinase profile*
+**/TumorSample_normalizedKinaseActivities*
+**/2024_PhosphoAtlas*
+**/Kinase_Substrate_Dataset
+**/*PhosphoSitePlus*
+
+# Common data file types (defensive, in case files land outside data/)
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.npz
+*.npy
+*.pkl
+*.pickle
+*.gz
+*.zip
+*.tar
+# But: keep small text manifests, schemas, JSON configs
+!requirements.txt
+!**/schemas/*.json
+!**/notes/*.json
+
+# ---------------------------------------------------------------
+# Qwen agent benchmark — outputs gitignored, structure preserved
+# ---------------------------------------------------------------
+agent_benchmark/variants/**/atlas.json
+agent_benchmark/variants/**/*atlas*.json
+agent_benchmark/qwen_prompt_testing/*atlas*.json
+agent_benchmark/qwen_prompt_testing/scores/
+agent_benchmark/**/results/
+agent_benchmark/**/scores/
+
+# ---------------------------------------------------------------
+# Secrets and credentials — NEVER commit
+# ---------------------------------------------------------------
+.env
+*.env
+!.env.example
+**/secrets*
+**/*api_key*
+**/*apikey*
+**/*API_KEY*
+**/*OPENAI*
+**/*AZURE*
+**/*VERSA*
+**/*TOGETHER*
+**/*UNIFIED*
+
+# ---------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ---------------------------------------------------------------
+# Editor / OS
+# ---------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ---------------------------------------------------------------
+# Personal Claude Code context — never commit
+# ---------------------------------------------------------------
+CLAUDE.md
+.claude/
+
+# ---------------------------------------------------------------
+# Logs and run artifacts
+# ---------------------------------------------------------------
+logs/
+runs/
+outputs/
+*.log

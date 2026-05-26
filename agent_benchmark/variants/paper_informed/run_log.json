@@ -1,0 +1,1233 @@
+{
+  "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
+  "condition": "paper_informed",
+  "strategy_summary": "",
+  "metrics": {
+    "tool_calls": 70,
+    "db_tool_calls": 0,
+    "elapsed_seconds": 651.8,
+    "budget_exceeded": false,
+    "atlas_size": 25289
+  },
+  "token_usage": {
+    "total_input_tokens": 445324,
+    "total_output_tokens": 6017,
+    "total_tokens": 451341,
+    "api_calls": 18,
+    "per_call": [
+      {
+        "turn": 0,
+        "input_tokens": 3645,
+        "output_tokens": 83
+      },
+      {
+        "turn": 2,
+        "input_tokens": 3900,
+        "output_tokens": 347
+      },
+      {
+        "turn": 6,
+        "input_tokens": 7787,
+        "output_tokens": 348
+      },
+      {
+        "turn": 10,
+        "input_tokens": 9952,
+        "output_tokens": 346
+      },
+      {
+        "turn": 14,
+        "input_tokens": 11250,
+        "output_tokens": 347
+      },
+      {
+        "turn": 18,
+        "input_tokens": 14287,
+        "output_tokens": 348
+      },
+      {
+        "turn": 22,
+        "input_tokens": 15332,
+        "output_tokens": 349
+      },
+      {
+        "turn": 26,
+        "input_tokens": 19409,
+        "output_tokens": 351
+      },
+      {
+        "turn": 30,
+        "input_tokens": 21576,
+        "output_tokens": 349
+      },
+      {
+        "turn": 34,
+        "input_tokens": 23783,
+        "output_tokens": 348
+      },
+      {
+        "turn": 38,
+        "input_tokens": 27603,
+        "output_tokens": 346
+      },
+      {
+        "turn": 42,
+        "input_tokens": 31495,
+        "output_tokens": 348
+      },
+      {
+        "turn": 46,
+        "input_tokens": 35397,
+        "output_tokens": 349
+      },
+      {
+        "turn": 50,
+        "input_tokens": 38392,
+        "output_tokens": 354
+      },
+      {
+        "turn": 54,
+        "input_tokens": 41441,
+        "output_tokens": 349
+      },
+      {
+        "turn": 58,
+        "input_tokens": 44484,
+        "output_tokens": 350
+      },
+      {
+        "turn": 62,
+        "input_tokens": 46693,
+        "output_tokens": 355
+      },
+      {
+        "turn": 66,
+        "input_tokens": 48898,
+        "output_tokens": 350
+      }
+    ],
+    "estimated_cost_usd": 0.3611,
+    "pricing": {
+      "provider": "Together AI",
+      "model": "Qwen/Qwen3-235B-A22B-Instruct-2507-tput",
+      "input_per_1m": 0.8,
+      "output_per_1m": 0.8
+    }
+  },
+  "trace": [
+    {
+      "type": "tool_call",
+      "call_number": 1,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://www.phosphosite.org/downloads/Kinase_Substrate_Dataset.gz"
+      },
+      "result_size": 271,
+      "time": 8.76441502571106
+    },
+    {
+      "type": "tool_call",
+      "call_number": 2,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://signor.uniroma2.it/API/getHumanData.php"
+      },
+      "result_size": 220,
+      "time": 13.848826885223389
+    },
+    {
+      "type": "tool_call",
+      "call_number": 3,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CDK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2373,
+      "time": 23.429954767227173
+    },
+    {
+      "type": "tool_call",
+      "call_number": 4,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:EGFR",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2379,
+      "time": 24.21510887145996
+    },
+    {
+      "type": "tool_call",
+      "call_number": 5,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MAPK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2376,
+      "time": 25.170503854751587
+    },
+    {
+      "type": "tool_call",
+      "call_number": 6,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AKT1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2376,
+      "time": 26.330320835113525
+    },
+    {
+      "type": "tool_call",
+      "call_number": 7,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AKT2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2374,
+      "time": 58.372381925582886
+    },
+    {
+      "type": "tool_call",
+      "call_number": 8,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AKT3",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 59.098347663879395
+    },
+    {
+      "type": "tool_call",
+      "call_number": 9,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MTOR",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2383,
+      "time": 59.956281900405884
+    },
+    {
+      "type": "tool_call",
+      "call_number": 10,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PIK3CA",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 60.67001485824585
+    },
+    {
+      "type": "tool_call",
+      "call_number": 11,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PTEN",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 110.95272779464722
+    },
+    {
+      "type": "tool_call",
+      "call_number": 12,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:TP53",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 111.66869974136353
+    },
+    {
+      "type": "tool_call",
+      "call_number": 13,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:BRCA1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 112.35510087013245
+    },
+    {
+      "type": "tool_call",
+      "call_number": 14,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:ATM",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2379,
+      "time": 113.38947463035583
+    },
+    {
+      "type": "tool_call",
+      "call_number": 15,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:ATR",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2372,
+      "time": 158.4948718547821
+    },
+    {
+      "type": "tool_call",
+      "call_number": 16,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CHEK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2372,
+      "time": 159.27525782585144
+    },
+    {
+      "type": "tool_call",
+      "call_number": 17,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CHEK2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2379,
+      "time": 160.14411282539368
+    },
+    {
+      "type": "tool_call",
+      "call_number": 18,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MDM2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 160.8402898311615
+    },
+    {
+      "type": "tool_call",
+      "call_number": 19,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RB1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 226.88092875480652
+    },
+    {
+      "type": "tool_call",
+      "call_number": 20,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CDKN1A",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 227.6024148464203
+    },
+    {
+      "type": "tool_call",
+      "call_number": 21,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CDKN2A",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 228.3180718421936
+    },
+    {
+      "type": "tool_call",
+      "call_number": 22,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:KRAS",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 1719,
+      "time": 229.0269136428833
+    },
+    {
+      "type": "tool_call",
+      "call_number": 23,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:BRAF",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 239.87875485420227
+    },
+    {
+      "type": "tool_call",
+      "call_number": 24,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RAF1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 240.60115671157837
+    },
+    {
+      "type": "tool_call",
+      "call_number": 25,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MAP2K1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2386,
+      "time": 241.31595182418823
+    },
+    {
+      "type": "tool_call",
+      "call_number": 26,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MAP2K2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2386,
+      "time": 242.04242777824402
+    },
+    {
+      "type": "tool_call",
+      "call_number": 27,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MAPK8",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2374,
+      "time": 287.98015999794006
+    },
+    {
+      "type": "tool_call",
+      "call_number": 28,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:MAPK14",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2385,
+      "time": 288.8140296936035
+    },
+    {
+      "type": "tool_call",
+      "call_number": 29,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:GSK3A",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 289.51433086395264
+    },
+    {
+      "type": "tool_call",
+      "call_number": 30,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:GSK3B",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 290.20705676078796
+    },
+    {
+      "type": "tool_call",
+      "call_number": 31,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKACA",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 324.13177490234375
+    },
+    {
+      "type": "tool_call",
+      "call_number": 32,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKACB",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 324.88712191581726
+    },
+    {
+      "type": "tool_call",
+      "call_number": 33,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCA",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 325.72519874572754
+    },
+    {
+      "type": "tool_call",
+      "call_number": 34,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCB",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2379,
+      "time": 326.50790786743164
+    },
+    {
+      "type": "tool_call",
+      "call_number": 35,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCD",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2370,
+      "time": 352.9032657146454
+    },
+    {
+      "type": "tool_call",
+      "call_number": 36,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCE",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2367,
+      "time": 353.7267189025879
+    },
+    {
+      "type": "tool_call",
+      "call_number": 37,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCI",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 354.4828805923462
+    },
+    {
+      "type": "tool_call",
+      "call_number": 38,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PRKCZ",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2380,
+      "time": 355.2687888145447
+    },
+    {
+      "type": "tool_call",
+      "call_number": 39,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AURKA",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2394,
+      "time": 383.17378282546997
+    },
+    {
+      "type": "tool_call",
+      "call_number": 40,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AURKB",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2371,
+      "time": 384.116507768631
+    },
+    {
+      "type": "tool_call",
+      "call_number": 41,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PLK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2378,
+      "time": 385.0001389980316
+    },
+    {
+      "type": "tool_call",
+      "call_number": 42,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PLK2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 385.72072076797485
+    },
+    {
+      "type": "tool_call",
+      "call_number": 43,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:PLK3",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2378,
+      "time": 410.069082736969
+    },
+    {
+      "type": "tool_call",
+      "call_number": 44,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:NEK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2384,
+      "time": 410.7917318344116
+    },
+    {
+      "type": "tool_call",
+      "call_number": 45,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:NEK2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2385,
+      "time": 411.5393269062042
+    },
+    {
+      "type": "tool_call",
+      "call_number": 46,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:NEK6",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2391,
+      "time": 412.3318347930908
+    },
+    {
+      "type": "tool_call",
+      "call_number": 47,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:NEK7",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2391,
+      "time": 432.399662733078
+    },
+    {
+      "type": "tool_call",
+      "call_number": 48,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:DYRK1A",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2389,
+      "time": 433.13188099861145
+    },
+    {
+      "type": "tool_call",
+      "call_number": 49,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:DYRK1B",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 433.83992886543274
+    },
+    {
+      "type": "tool_call",
+      "call_number": 50,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CLK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2377,
+      "time": 434.6032419204712
+    },
+    {
+      "type": "tool_call",
+      "call_number": 51,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CSNK1A1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2386,
+      "time": 502.3813576698303
+    },
+    {
+      "type": "tool_call",
+      "call_number": 52,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CSNK1D",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2377,
+      "time": 503.09133076667786
+    },
+    {
+      "type": "tool_call",
+      "call_number": 53,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CSNK1E",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2377,
+      "time": 503.8354117870331
+    },
+    {
+      "type": "tool_call",
+      "call_number": 54,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CSNK2A1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 504.52056074142456
+    },
+    {
+      "type": "tool_call",
+      "call_number": 55,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:CSNK2A2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 536.6192898750305
+    },
+    {
+      "type": "tool_call",
+      "call_number": 56,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:VRK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2386,
+      "time": 537.4664697647095
+    },
+    {
+      "type": "tool_call",
+      "call_number": 57,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:VRK2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2386,
+      "time": 538.2116208076477
+    },
+    {
+      "type": "tool_call",
+      "call_number": 58,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:TTK",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2381,
+      "time": 539.0025248527527
+    },
+    {
+      "type": "tool_call",
+      "call_number": 59,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:BUB1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 558.7517218589783
+    },
+    {
+      "type": "tool_call",
+      "call_number": 60,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:HASPIN",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2387,
+      "time": 559.5026748180389
+    },
+    {
+      "type": "tool_call",
+      "call_number": 61,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RPS6KB1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2388,
+      "time": 560.2985579967499
+    },
+    {
+      "type": "tool_call",
+      "call_number": 62,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RPS6KB2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 560.981461763382
+    },
+    {
+      "type": "tool_call",
+      "call_number": 63,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RPS6KA1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2391,
+      "time": 625.3804368972778
+    },
+    {
+      "type": "tool_call",
+      "call_number": 64,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RPS6KA2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 626.0620229244232
+    },
+    {
+      "type": "tool_call",
+      "call_number": 65,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:RPS6KA3",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2384,
+      "time": 626.8532989025116
+    },
+    {
+      "type": "tool_call",
+      "call_number": 66,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:EIF2AK1",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 627.5643839836121
+    },
+    {
+      "type": "tool_call",
+      "call_number": 67,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:EIF2AK2",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 641.145703792572
+    },
+    {
+      "type": "tool_call",
+      "call_number": 68,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:EIF2AK3",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 642.108158826828
+    },
+    {
+      "type": "tool_call",
+      "call_number": 69,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:EIF2AK4",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 44,
+      "time": 642.8209626674652
+    },
+    {
+      "type": "tool_call",
+      "call_number": 70,
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://rest.uniprot.org/uniprotkb/search",
+        "params": {
+          "query": "organism_id:9606 AND reviewed:true AND ft_mod_res:AMPK",
+          "fields": "gene_names,ft_mod_res,accession",
+          "format": "json",
+          "size": 500
+        }
+      },
+      "result_size": 2378,
+      "time": 643.9843456745148
+    },
+    {
+      "type": "error",
+      "error": "Error code: 503 - {'id': 'oeDKBPK-2j9zxn-9e8ae431fc407ace', 'error': {'message': 'Service unavailable', 'type': 'service_unavailable', 'param': None, 'code': None}}",
+      "time": 651.7850728034973
+    }
+  ],
+  "tool_log": []
+}

@@ -12,7 +12,7 @@ return empty results. The model recognized the failure and attempted fallback
 strategies (keyword searches, querying known genes by name) but ultimately
 submitted an empty atlas (atlas.json = []). This is not a model capability
 finding — it reflects a misconfigured environment. The intended setup requires
-either local database files (as Hui runs on her machine) or a live API backend.
+either local database files or a live API backend.
 
 **Resolution:** LiveDatabaseTools was built as a live UniProt REST API backend
 and confirmed valid — equivalent to the local file approach other agents use.
@@ -22,7 +22,7 @@ This is the official Paper 1 data layer for our Qwen runs.
 When given only the standard tool interface with empty backends, Qwen stayed
 within the provided tools and gave up when they returned nothing. It did not
 attempt to identify or call external database URLs on its own. This contrasts
-with Borna's Mistral setup which used generic HTTP tools — Mistral at least
+with another contributor's Mistral setup which used generic HTTP tools — Mistral at least
 attempted to find APIs, though it provided incorrect URLs (likely due to
 training data cutoff). Qwen's failure mode: silence. Mistral's: wrong answer.
 Worth noting as a behavioral difference in the discussion section.
@@ -89,13 +89,13 @@ This is the SIGNOR-only baseline. UniProt coverage is the remaining gap
 queries on top should push recall higher.
 
 ### TODO: HTTP tool + URL injection (tentative Paper 1 approach)
-Per Hui's guidance, injecting UniProt/SIGNOR API URLs is sanctioned for
+Per the PI's guidance, injecting UniProt/SIGNOR API URLs is sanctioned for
 Paper 1. Qwen needs an HTTP GET tool to actually use those URLs — without
 it, URL injection is just noise.
 
 - Add http_get tool to QwenAgent (contributions only, not shared infra)
 - Write explicit_prompt.txt injecting UniProt + SIGNOR endpoints
-- Add $50 token cost checkpoint per Hui's guidance
+- Add $50 token cost checkpoint per the PI's guidance
 - Run and log: does Qwen navigate real APIs correctly? Does it paginate?
   Does it parse responses into the right atlas structure?
 - PSP excluded — no public API
@@ -115,7 +115,7 @@ UniProt ft_mod_res query list. Added hardcoded supplemental kinase list
 Runner output redirected: results/explicit_prompt/atlas.json (was qwen_prompt_testing/)
 
 ### Results folder structure (03/30/2026)
-Reorganized outputs into results/ to match Hui's folder convention:
+Reorganized outputs into results/ to match the PI's folder convention:
   results/naive/               ← empty atlas baseline
   results/explicit_prompt/     ← _signor_only files = accidental run (F1=0.572)
                                   atlas.json = full run (pending this session)
@@ -258,10 +258,10 @@ Token tracking is now complete and accurate. Run log has proper token_usage bloc
 
 ---
 
-## Re-run after Hui's refactor (04/07/2026)
+## Re-run after PI refactor (04/07/2026)
 
 ### Background
-Hui pushed a code refactor (commits 906864f, 4d77ccc, 7aec32c) with three changes
+The PI pushed a code refactor (commits 906864f, 4d77ccc, 7aec32c) with three changes
 relevant to us:
   1. scorer.py: peptide accuracy is now case-insensitive by default (exact + case-diff
      counted together). Old metric was peptide_close_accuracy; new primary metric is
@@ -271,16 +271,16 @@ relevant to us:
      (http://phosphosite.org/downloads/Kinase_Substrate_Dataset.gz).
   3. live_runner.py: --all flag added for running all conditions in one shot.
 
-Hui asked all contributors to re-run naive, paper_informed, and pipeline_guided
+The PI asked all contributors to re-run naive, paper_informed, and pipeline_guided
 following the latest README. Old results archived to results/_archive_03_31/.
 
 ### PSP discovery (04/07/2026)
-The PSP URL Hui added is a **direct public download** — no login required, HTTP 200,
+The PSP URL the PI added is a **direct public download** — no login required, HTTP 200,
 760KB gzipped TSV (last updated 2026-03-17). We confirmed this via curl HEAD request.
 
 This is significant: our F1=0.572 ceiling was entirely due to SIGNOR+UniProt only.
 PSP is the primary source in the gold standard. Claude Opus had PSP access via local
-database files (Hui populated databases/psp/ on her machine). We didn't, which is
+database files (the PI populated databases/psp/ on her machine). We didn't, which is
 why our recall was capped.
 
 Fix: added gzip decompression + PSP TSV parser to _dispatch_http_get in
